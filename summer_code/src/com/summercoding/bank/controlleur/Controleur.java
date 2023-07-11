@@ -65,5 +65,10 @@ public class Controleur {
         return gestionnaireUtilisateur.listAllUtilisateur();
         
     }
+    
+     public Utilisateur routeVersLoginUtilisateur(String login, String password) throws ClassNotFoundException, SQLException{
+        
+        return gestionnaireUtilisateur.getAllLoginAndPassword(login, password);
+    }
 }
 

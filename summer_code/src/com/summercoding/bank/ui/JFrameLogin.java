@@ -7,6 +7,7 @@ package com.summercoding.bank.ui;
 
 import com.summercoding.bank.controlleur.Controleur;
 import com.summerconding.bank.entities.Admin;
+import com.summerconding.bank.entities.Utilisateur;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,9 @@ public class JFrameLogin extends javax.swing.JFrame {
      */
     public JFrameLogin() {
         initComponents();
+        
+        ComboBox.addItem("Admin");
+        ComboBox.addItem("Utilisateur");
     }
 
     /**
@@ -43,8 +47,11 @@ public class JFrameLogin extends javax.swing.JFrame {
         champPassword = new javax.swing.JPasswordField();
         bouttonConnexion = new javax.swing.JButton();
         bouttonAnnuler = new javax.swing.JButton();
+        ComboBox = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Login");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("        Login");
 
@@ -61,6 +68,12 @@ public class JFrameLogin extends javax.swing.JFrame {
         bouttonAnnuler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bouttonAnnulerActionPerformed(evt);
+            }
+        });
+
+        ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxActionPerformed(evt);
             }
         });
 
@@ -87,11 +100,17 @@ public class JFrameLogin extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(bouttonAnnuler)
                 .addGap(34, 34, 34))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(129, 129, 129)
+                .addComponent(ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
+                .addGap(25, 25, 25)
+                .addComponent(ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(champLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -121,29 +140,85 @@ public class JFrameLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bouttonConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bouttonConnexionActionPerformed
-        try {
+        
             // TODO add your handling code here:
             String login = champLogin.getText();
             String password = champPassword.getText();
+            String type = ComboBox.getSelectedItem().toString();
             
-            Admin admin = controleur.routeVersLogin(login, password);
-            if(admin==null){
-                JOptionPane.showMessageDialog(null, "Login or Password incorrect");
-            }else{
-                JOptionPane.showMessageDialog(null, "succès");  
+            if(login.equals("") || password.equals("")){
+                
+                JOptionPane.showMessageDialog(this, "Login ou Mot de passe vide"); 
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Veuiller contacter l'administrateur");  
-        }
+            
+            else {
+                
+                if (type.equals("Admin")) {
+
+                    try {
+                        
+                        Admin admin = controleur.routeVersLogin(login, password);
+                        
+                        if(admin==null){
+                            JOptionPane.showMessageDialog(null, "Login or Password incorrect");
+                        }
+                        
+                        else{  
+                           // JOptionPane.showMessageDialog(null, "Connection Admin success");
+                            
+                           this.setVisible(false);// pour faire disparaite la page de login
+                           
+                           new JFrameHome().setVisible(true);//pour afficher la page principale
+                            
+                        }
+                    }
+                    
+                    catch (ClassNotFoundException ex) {
+                        Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    } 
+                    
+                    catch (SQLException ex) {
+                        Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+
+                else{  //if(type.equals(//"utilisateur"))
+                    
+                    try {
+                  
+                    
+                        Utilisateur utilisateur = controleur.routeVersLoginUtilisateur(login, password);
+
+                        if(utilisateur==null){
+                            JOptionPane.showMessageDialog(null, "Login or Password incorrect");
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Connexion Utilisateur success ");
+                        }
+                    } 
+                    
+                    catch (ClassNotFoundException ex) {
+                        Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        
+                    } 
+                    catch (SQLException ex) {
+                        Logger.getLogger(JFrameLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                
+            }
     }//GEN-LAST:event_bouttonConnexionActionPerformed
 
     private void bouttonAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bouttonAnnulerActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_bouttonAnnulerActionPerformed
+
+    private void ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,6 +256,7 @@ public class JFrameLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox ComboBox;
     private javax.swing.JButton bouttonAnnuler;
     private javax.swing.JButton bouttonConnexion;
     private javax.swing.JTextField champLogin;

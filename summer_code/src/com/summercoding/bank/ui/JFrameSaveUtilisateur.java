@@ -80,7 +80,7 @@ public class JFrameSaveUtilisateur extends javax.swing.JFrame {
         champEnregistrer = new javax.swing.JButton();
         ChampAnnuler = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("        Login");
 

@@ -33,7 +33,15 @@ public class GestionnaireUtilisateur {
     public List<Utilisateur> listAllUtilisateur() throws ClassNotFoundException, SQLException{
      
      return utilisateur.getAllUtilisateur();
-}
+    }
+    
+    public Utilisateur getAllLoginAndPassword(String login, String password) throws SQLException, ClassNotFoundException{
+        
+        return utilisateur.getByLoginAndPassword(login, password);
+        
+    }
+    
+    
    
     
 }

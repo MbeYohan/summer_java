@@ -148,7 +148,7 @@ public void save( String login, String password, String nom, String prenom, Loca
 }
      
      
-      public Utilisateur getByLoginAndPassword(String login, int password) throws ClassNotFoundException, SQLException{
+      public Utilisateur getByLoginAndPassword(String login, String password) throws ClassNotFoundException, SQLException{
     
        String cmd = "select * from utilisateur where login = ? and password= ?";
 
@@ -221,7 +221,7 @@ public void save( String login, String password, String nom, String prenom, Loca
      String result= utilisateur.getOne(1).toString();
      System.out.println(result);
      
-     result = utilisateur.getByLoginAndPassword("pipi",125).toString();
+     result = utilisateur.getByLoginAndPassword("pipi","pipi").toString();
      System.out.println(result);
 
      result = utilisateur.getAllUtilisateur().toString();
